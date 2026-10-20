@@ -2,6 +2,8 @@
 
 A modified version of the **8-bit Fortress** pixel font by Fortress Tech, made to add glyphs the original lacks (starting with the minus sign `-`).
 
+![Preview of the font](build/preview.png)
+
 ## Original
 
 - Font: 8-bit Fortress, Version 1.0, built with FontStruct
@@ -24,6 +26,7 @@ The original has only letters, digits and `` !"#$%&'()*+,.?@_``. Missing ASCII i
 - `src/layout.txt`: which character each cell of the sheet holds
 - `reference/8-bit-fortress-original.png`: the original font drawn as a glyph sheet, to compare against
 - `build/8-bit-fortress-modded.ttf`: the built font
+- `build/preview.png`: the preview above
 - `tools/`: the Python scripts below
 
 ## Editing the font
@@ -57,7 +60,11 @@ python tools/build.py
 python tools/verify.py
 ```
 
-`build.py` traces each glyph's pixels into outlines and writes `build/8-bit-fortress-modded.ttf`; font names and metrics are set at its top. The build is reproducible, so an unchanged sheet gives a byte-identical font. `verify.py` checks every glyph of the built font has exactly the sheet's pixels and width, then lists the characters that differ from the original font.
+```bash
+python tools/preview.py
+```
+
+`build.py` traces each glyph's pixels into outlines and writes `build/8-bit-fortress-modded.ttf`; font names and metrics are set at its top. The build is reproducible, so an unchanged sheet gives a byte-identical font. `verify.py` checks every glyph of the built font has exactly the sheet's pixels and width, then lists the characters that differ from the original font. `preview.py` renders `build/preview.png` from the built font, 4 screen pixels per font pixel.
 
 `tools/extract.py` draws the original font into `reference/8-bit-fortress-original.png`; that's also how the edited sheet started, so copying it over `src/8-bit-fortress.png` starts over. `tools/write_reference.py` writes `src/layout.txt`.
 
