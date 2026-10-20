@@ -17,9 +17,63 @@ The unmodified files are kept in [`original/`](original/):
 
 The original has only letters, digits and `` !"#$%&'()*+,.?@_``. Missing ASCII includes `` - / : ; < = > [ \ ] ^ ` { | } ~``.
 
+## Repository
+
+- `original/`: the unmodified font and its license
+- `src/8-bit-fortress.png`: the glyph sheet, the only file to edit
+- `src/layout.txt`: which character each cell of the sheet holds
+- `build/8-bit-fortress-modded.ttf`: the built font
+- `tools/`: the Python scripts below
+
+## Editing the font
+
+Edit `src/8-bit-fortress.png` in any pixel editor, then build. The sheet is a grid of cells, 16 per row, and a cell's position decides its character; look it up in `src/layout.txt`.
+
+Each cell is 12 pixels wide and 9 tall: 7 rows above the baseline, 1 below it (tinted blue) and a gray marker row at the bottom. Colors must be exact:
+
+| Color | RGB | Meaning |
+|---|---|---|
+| Black | 0, 0, 0 | Glyph pixel |
+| Magenta | 255, 0, 255 | In the marker row: the advance width, where the next character starts |
+| Cyan | 0, 255, 255 | Anywhere in the cell: the character isn't in the font |
+| White, gray, blue tint | | Background and guides, ignored |
+
+Any other color, or a cell with neither cyan nor exactly one magenta marker, fails the build with a message naming the cell. To add a character, remove the cyan pixel from its cell, draw it and place the magenta marker. The cell of DEL (0x7F) holds `.notdef`, the glyph shown for characters the font doesn't have.
+
+## Building
+
+Needs Python 3 and the packages in `requirements.txt`:
+
+```bash
+pip install -r requirements.txt
+```
+
+```bash
+python tools/build.py
+```
+
+```bash
+python tools/verify.py
+```
+
+`build.py` traces each glyph's pixels into outlines and writes `build/8-bit-fortress-modded.ttf`; font names and metrics are set at its top. The build is reproducible, so an unchanged sheet gives a byte-identical font. `verify.py` checks every glyph of the built font has exactly the sheet's pixels and width, then lists the characters that differ from the original font.
+
+`tools/extract.py` drew the starting sheet from the original font and only needs running again to start over, as it overwrites the sheet. `tools/write_reference.py` writes `src/layout.txt`.
+
+## Changes from the original
+
+Converting to whole pixels changed:
+
+- `&`, `©` and `®` used half pixels and were snapped to the grid, so they need redrawing
+- `™` (U+2122) is outside the sheet layout and was dropped
+- `.notdef` had hairline borders and diagonals and is now a plain hollow box
+- Space's width went from 2.5 to 2 pixels (731 to 585 units)
+
+The font is renamed to "8-bit Fortress Modded" so it can't be mistaken for the original.
+
 ## Font metrics
 
-TrueType, 2048 units per em. Glyphs are built from square pixels of about 292.5 units (2048 / 7).
+TrueType, 2048 units per em. Glyphs are built from square pixels of 2048 / 7 units, truncated like the original FontStruct export (1 pixel = 292 units, 3 = 877).
 
 ## License
 
