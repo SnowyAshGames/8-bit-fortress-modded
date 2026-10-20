@@ -62,6 +62,10 @@ def glyph_row_to_pixel_y(glyph_row):
     return ASCENT_PIXELS - 1 - glyph_row
 
 
+def pixel_y_to_glyph_row(pixel_y):
+    return ASCENT_PIXELS - 1 - pixel_y
+
+
 def guide_color(glyph_row):
     if glyph_row == MARKER_ROW:
         return MARKER_BACKGROUND

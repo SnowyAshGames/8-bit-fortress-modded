@@ -7,14 +7,13 @@ The original .notdef is a box with hairline borders thinner than a pixel, so it'
 Usage: python tools/extract.py
 """
 
-import math
 from pathlib import Path
 
-from fontTools.pens.pointInsidePen import PointInsidePen
 from fontTools.ttLib import TTFont
 from PIL import Image
 
 import layout
+import raster
 
 ROOT = Path(__file__).resolve().parent.parent
 FONT = ROOT / "original" / "8-bit-fortress.ttf"
@@ -33,14 +32,14 @@ def main():
             sheet.putpixel((cell_x, cell_y), layout.MISSING_MARKER)
             continue
 
-        if code == layout.NOTDEF_CODE:
-            draw_notdef_box(sheet, cell_x, cell_y)
-        else:
-            draw_glyph(sheet, cell_x, cell_y, glyph_set[glyph_name])
-        advance = math.floor(layout.units_to_pixel(font["hmtx"][glyph_name][0]) + 0.5)
+        pixels = notdef_box_pixels() if code == layout.NOTDEF_CODE else raster.glyph_pixels(glyph_set[glyph_name])
+        for x, y in pixels:
+            sheet.putpixel((cell_x + x, cell_y + layout.pixel_y_to_glyph_row(y)), layout.INK)
+        advance = raster.advance_pixels(font["hmtx"][glyph_name][0])
         sheet.putpixel((cell_x + advance, cell_y + layout.MARKER_ROW), layout.ADVANCE_MARKER)
 
-    dropped = [f"U+{code:04X}" for code in character_map if code not in {code for code, _, _ in layout.cells()}]
+    sheet_codes = {code for code, _, _ in layout.cells()}
+    dropped = [f"U+{code:04X}" for code in character_map if code not in sheet_codes]
     if dropped:
         print(f"Not in the sheet layout, dropped: {' '.join(dropped)}")
 
@@ -58,26 +57,11 @@ def new_sheet():
     return sheet
 
 
-def draw_glyph(sheet, cell_x, cell_y, glyph):
-    for glyph_row in range(layout.GLYPH_ROWS):
-        pixel_y = layout.glyph_row_to_pixel_y(glyph_row)
-        for x in range(layout.CELL_WIDTH):
-            center = (layout.pixel_to_units(x + 0.5), layout.pixel_to_units(pixel_y + 0.5))
-            pen = PointInsidePen(None, center)
-            glyph.draw(pen)
-            if pen.getResult():
-                sheet.putpixel((cell_x + x, cell_y + glyph_row), layout.INK)
-
-
-def draw_notdef_box(sheet, cell_x, cell_y):
+def notdef_box_pixels():
     """Hollow box covering the original's outline, 4 pixels wide and 6 tall on the baseline"""
     width = 4
     height = 6
-    top_row = layout.ASCENT_PIXELS - height
-    for glyph_row in range(top_row, top_row + height):
-        for x in range(width):
-            if glyph_row in (top_row, top_row + height - 1) or x in (0, width - 1):
-                sheet.putpixel((cell_x + x, cell_y + glyph_row), layout.INK)
+    return {(x, y) for x in range(width) for y in range(height) if x in (0, width - 1) or y in (0, height - 1)}
 
 
 if __name__ == "__main__":
