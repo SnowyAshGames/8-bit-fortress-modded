@@ -63,9 +63,11 @@ python tools/verify.py
 
 ## Changes from the original
 
+Added `` - / : ; < = > [ \ ] ^ ` { | } ~``, so all printable ASCII is covered, and redrew `%`, `&`, `+`, `,`, `<`, `>` and `@`.
+
 Converting to whole pixels changed:
 
-- `&`, `©` and `®` used half pixels and were snapped to the grid, so they need redrawing
+- `©` and `®` used half pixels and were removed
 - `™` (U+2122) is outside the sheet layout and was dropped
 - `.notdef` had hairline borders and diagonals and is now a plain hollow box
 - Space's width went from 2.5 to 2 pixels (731 to 585 units)
