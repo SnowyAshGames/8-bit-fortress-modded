@@ -48,6 +48,7 @@ TIMESTAMP = 3806288933
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
     sheet = read_sheet()
     glyphs, errors = read_cells(sheet)
     if errors:

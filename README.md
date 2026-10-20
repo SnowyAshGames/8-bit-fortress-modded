@@ -22,6 +22,7 @@ The original has only letters, digits and `` !"#$%&'()*+,.?@_``. Missing ASCII i
 - `original/`: the unmodified font and its license
 - `src/8-bit-fortress.png`: the glyph sheet, the only file to edit
 - `src/layout.txt`: which character each cell of the sheet holds
+- `reference/8-bit-fortress-original.png`: the original font drawn as a glyph sheet, to compare against
 - `build/8-bit-fortress-modded.ttf`: the built font
 - `tools/`: the Python scripts below
 
@@ -58,7 +59,7 @@ python tools/verify.py
 
 `build.py` traces each glyph's pixels into outlines and writes `build/8-bit-fortress-modded.ttf`; font names and metrics are set at its top. The build is reproducible, so an unchanged sheet gives a byte-identical font. `verify.py` checks every glyph of the built font has exactly the sheet's pixels and width, then lists the characters that differ from the original font.
 
-`tools/extract.py` drew the starting sheet from the original font and only needs running again to start over, as it overwrites the sheet. `tools/write_reference.py` writes `src/layout.txt`.
+`tools/extract.py` draws the original font into `reference/8-bit-fortress-original.png`; that's also how the edited sheet started, so copying it over `src/8-bit-fortress.png` starts over. `tools/write_reference.py` writes `src/layout.txt`.
 
 ## Changes from the original
 

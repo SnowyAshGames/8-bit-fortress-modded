@@ -16,6 +16,7 @@ import raster
 
 
 def main():
+    sys.stdout.reconfigure(encoding="utf-8")
     sheet_glyphs, errors = build.read_cells(build.read_sheet())
     if errors:
         sys.exit("The glyph sheet has errors, run tools/build.py to see them")

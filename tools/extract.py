@@ -1,4 +1,4 @@
-"""Draws the original font's glyphs into a new glyph sheet PNG. Run once to create the starting sheet.
+"""Draws the original font's glyphs into a glyph sheet PNG, kept as a reference of the original next to the edited sheet.
 
 Each pixel is filled if its center is inside the glyph outline, so outlines off the pixel grid get snapped to it.
 Advance widths are rounded to whole pixels, half up.
@@ -17,7 +17,7 @@ import raster
 
 ROOT = Path(__file__).resolve().parent.parent
 FONT = ROOT / "original" / "8-bit-fortress.ttf"
-OUTPUT = ROOT / "src" / "8-bit-fortress.png"
+OUTPUT = ROOT / "reference" / "8-bit-fortress-original.png"
 
 
 def main():
