@@ -1,0 +1,25 @@
+Glyph sheet layout of src/8-bit-fortress.png
+
+Each cell shows the character it holds if drawn. A cell's code point is its row's code point plus its column.
+x and y are the pixel coordinates of the cell's top left corner in the PNG.
+
+SP   = space
+ND   = .notdef, the box shown for characters the font doesn't have (the cell of DEL, 0x7F)
+NBSP = no-break space
+SHY  = soft hyphen
+
+          0    1    2    3    4    5    6    7    8    9    A    B    C    D    E    F
+x         1    14   27   40   53   66   79   92   105  118  131  144  157  170  183  196
+
+0x20 y1   SP   !    "    #    $    %    &    '    (    )    *    +    ,    -    .    /
+0x30 y11  0    1    2    3    4    5    6    7    8    9    :    ;    <    =    >    ?
+0x40 y21  @    A    B    C    D    E    F    G    H    I    J    K    L    M    N    O
+0x50 y31  P    Q    R    S    T    U    V    W    X    Y    Z    [    \    ]    ^    _
+0x60 y41  `    a    b    c    d    e    f    g    h    i    j    k    l    m    n    o
+0x70 y51  p    q    r    s    t    u    v    w    x    y    z    {    |    }    ~    ND
+0xA0 y61  NBSP ¡    ¢    £    ¤    ¥    ¦    §    ¨    ©    ª    «    ¬    SHY  ®    ¯
+0xB0 y71  °    ±    ²    ³    ´    µ    ¶    ·    ¸    ¹    º    »    ¼    ½    ¾    ¿
+0xC0 y81  À    Á    Â    Ã    Ä    Å    Æ    Ç    È    É    Ê    Ë    Ì    Í    Î    Ï
+0xD0 y91  Ð    Ñ    Ò    Ó    Ô    Õ    Ö    ×    Ø    Ù    Ú    Û    Ü    Ý    Þ    ß
+0xE0 y101 à    á    â    ã    ä    å    æ    ç    è    é    ê    ë    ì    í    î    ï
+0xF0 y111 ð    ñ    ò    ó    ô    õ    ö    ÷    ø    ù    ú    û    ü    ý    þ    ÿ
