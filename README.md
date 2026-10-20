@@ -1,6 +1,6 @@
 # 8-bit Fortress (modded)
 
-A modified version of the **8-bit Fortress** pixel font by Fortress Tech, made to add glyphs the original lacks (starting with the minus sign `-`).
+A modified version of the **8-bit Fortress** pixel font by Fortress Tech, made to add missing and modify glyphs.
 
 ![Preview of the font](build/preview.png)
 
